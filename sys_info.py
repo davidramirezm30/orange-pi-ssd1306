@@ -6,9 +6,7 @@
 
 """
 Display basic system information.
-
 Needs psutil (+ dependencies) installed::
-
   $ sudo apt-get install python-dev
   $ sudo -H pip install psutil
 """
