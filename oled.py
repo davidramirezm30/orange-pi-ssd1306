@@ -168,10 +168,7 @@ def main():
     GPIO.add_event_detect(clk, GPIO.FALLING , callback=rotary_callback, bouncetime=100)
 
     with canvas(device) as draw:
-        menu(device, draw, names, 0) 
-
-    while True:
-        pass
+        menu(device, draw, names, 0)
 
 if __name__ == "__main__":
     try:
