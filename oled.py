@@ -14,7 +14,6 @@ import sys
 import os.path
 from demo_opts import get_device
 
-
 clk = 15
 dt = 13
 sw = 11
@@ -83,12 +82,7 @@ def menu(device, draw, menustr, index):
             draw.text((2, i*10), menustr[i], font=font, fill=255)
 		
 #names = ['Memoria virtual', 'Memoria interna', 'Direccion IP', 'Network', 'CPU Usage', 'Settings']
-names = ['Memoria virtual', 'Memoria interna', 'Direccion IP', 'Network', 'CPU Usage']
-
-with canvas(device) as draw:
-    menu(device, draw, names, 0)    
-    
-swState = GPIO.input(clk)
+names = ['Memoria virtual', 'Memoria interna', 'Direccion IP', 'Network', 'CPU Usage']    
     
 def back_to_menu(device, draw):
     invert(draw, 0, 5, "Volver")
@@ -145,8 +139,6 @@ def sw_callback(channel):
         menu_operation(strval)
         flase_menu = False
     
-    
-clkLastState = GPIO.input(clk)
 
 def rotary_callback(channel):
     global clkLastState
@@ -168,23 +160,19 @@ def menu_update():
     with canvas(device) as draw:
         menu(device, draw, names, menuindex%len(names))
 
-try:
+def main():
+    swState = GPIO.input(clk)
+    clkLastState = GPIO.input(clk)
+
     GPIO.add_event_detect(sw, GPIO.FALLING , callback=sw_callback, bouncetime=100)
     GPIO.add_event_detect(clk, GPIO.FALLING , callback=rotary_callback, bouncetime=100)
 
-    #logo(device)
-    input("Enter anything")
-except KeyboardInterrupt:  
-    print ("Keyboard Interrupt")
-	# here you put any code you want to run before the program   
-	# exits when you press CTRL+C  
-    GPIO.cleanup()
-except:  
-	# this catches ALL other exceptions including errors.  
-	# You won't get any error messages for debugging  
-	# so only use it once your code is working  
-    print ("Ending") 
-    GPIO.cleanup()
-finally:  
-    print ("Finally")
-    GPIO.cleanup() # this ensures a clean exit	
+    with canvas(device) as draw:
+        menu(device, draw, names, 0)
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('Shutting down...!')
+        GPIO.cleanup()

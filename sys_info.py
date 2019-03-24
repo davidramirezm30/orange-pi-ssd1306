@@ -19,7 +19,6 @@ from datetime import datetime
 if os.name != 'posix':
     sys.exit('{} platform not supported'.format(os.name))
 
-from demo_opts import get_device
 from luma.core.render import canvas
 from PIL import ImageFont
 
@@ -98,15 +97,8 @@ def stats(device):
                 pass
 
 
-def main():
-    while True:
-        stats(device)
-        time.sleep(5)
+#def main():
+#    while True:
+#        stats(device)
+#        time.sleep(5)
 
-
-if __name__ == "__main__":
-    try:
-        device = get_device()
-        main()
-    except KeyboardInterrupt:
-        pass
