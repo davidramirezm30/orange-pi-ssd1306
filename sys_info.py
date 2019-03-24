@@ -95,10 +95,3 @@ def stats(device):
             except KeyError:
                 # no wifi enabled/available
                 pass
-
-
-#def main():
-#    while True:
-#        stats(device)
-#        time.sleep(5)
-
