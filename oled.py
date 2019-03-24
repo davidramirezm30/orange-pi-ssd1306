@@ -137,28 +137,34 @@ def sw_callback(channel):
     else:
         strval = names[menuindex]
         menu_operation(strval)
-        flase_menu = False
-    
+        flag_menu = False
 
 def rotary_callback(channel):
     global clkLastState
     global menuindex
+	
     if flag_menu == False:
+		
         clkState = GPIO.input(clk)
         dtState = GPIO.input(dt)
+		
         if dtState != clkState:
             menuindex -= 1
         else:
             menuindex += 1
-        abs(menuindex)
+			
+        menuindex = abs(menuindex)
+		menuindex = menuindex % len(names)
         menu_update()
         clkLastState = clkState
         sleep(0.01)
 
 def menu_update():
     global menuindex
+	global names
+	
     with canvas(device) as draw:
-        menu(device, draw, names, menuindex%len(names))
+        menu(device, draw, names, menuindex)
 
 def main():
     swState = GPIO.input(clk)
